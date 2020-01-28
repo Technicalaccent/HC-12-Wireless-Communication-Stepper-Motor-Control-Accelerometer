@@ -1,0 +1,19 @@
+// Makes 100 accelerometer readings and sends the average for smoother result
+  angleSum = angleSum + angleInt;
+  count++;
+  if (count >= 100) {
+    angleInt = angleSum / 100;
+    angleSum = 0;
+    count = 0;
+    // Some more smoothing of acceleromter reading - sends the new angle only if it differes from the previous one by +-2
+    if (angleInt > lastAngle + 2 || angleInt < lastAngle - 2) {
+      Serial.println(angleInt);
+      String angleString = String(angleInt);
+      //sends the angle value with start marker "s" and end marker "e"
+      HC12.print("s" + angleString + "e");
+      delay(10);
+      lastAngle = angleInt;
+      angleSum = 0;
+      count = 0;
+    }
+  }

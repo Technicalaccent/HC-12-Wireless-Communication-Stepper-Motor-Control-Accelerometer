@@ -1,0 +1,18 @@
+// Reads the incoming angle
+  while (HC12.available()) {             // If HC-12 has data
+    incomingByte = HC12.read();          // Store each icoming byte from HC-12
+    delay(5);
+    // Reads the data between the start "s" and end marker "e"
+    if (start == true) {
+      if (incomingByte != 'e') {
+        readBuffer += char(incomingByte);    // Add each byte to ReadBuffer string variable
+      }
+      else {
+        start = false;
+      }
+    }
+    // Checks whether the received message statrs with the start marker "s"
+    else if ( incomingByte == 's') {
+      start = true; // If true start reading the message
+    }
+  }
